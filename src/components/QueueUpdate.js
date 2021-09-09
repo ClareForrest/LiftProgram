@@ -1,5 +1,4 @@
-// Takes props
-
+// Used to place user requests into appropriate queue
 function QueueUpdate(props){
 
   const [userDestinationRequest, setUserDestinationRequest] = useState(null)
