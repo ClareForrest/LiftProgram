@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-class DownQueue extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      newCallLevel: 0,
-      currentLiftLevel: 0,
-      downQueue: []
-    }
+const DownQueue = (props) => {
+  const [queue, setQueue] = useState([])
+  const {
+    newCallLevel,
+    currentLiftLevel
+  } = props;
+
+  if(newCallLevel < currentLiftLevel){
+    // Place call at beginning of array
+    setQueue = queue.unshift(newCallLevel)
+  }else{
+    // Place call at end of array
+    setQueue = queue.shift(newCallLevel)
   }
-};
-
+}
 export default DownQueue;
