@@ -36,6 +36,8 @@ const LiftStatusState = () => {
 
   function onDirectionClick(event) {
     console.log('event', event)
+    setCallLocation = getRandomCallLocation(0, 10)
+    
     if(event){
       setLiftCalled(true)
       setUserDirectionRequest(event.target.value)
@@ -54,18 +56,17 @@ const LiftStatusState = () => {
       </>
     )
   }
+
+  // A random selector for floor level instead of user having to select (better imitates real life). 
+  function getRandomCallLocation(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+  }
+  
   return(
   <>
-    <form>
-      <label>Select which floor you are on</label>
-      <button type='submit' value='Ground' onClick={onClickCallLocation}>G</button>
-      <button type='submit' value='One' onClick={onClickCallLocation}>1</button>
-      <button type='submit' value='Two' onClick={onClickCallLocation}>2</button>
-      <button type='submit' value='Three' onClick={onClickCallLocation}>3</button>
-      <button type='submit' value='Four' onClick={onClickCallLocation}>4</button>
-      <button type='submit' value='Five' onClick={onClickCallLocation}>5</button>
-    </form>
-
+  <h1>Your level: {liftLocation}</h1>
     <form>
       <label>Up or Down?</label>
       <button type='submit' value={userDirectionRequest} onClick={onDirectionClick} >UP</button>
