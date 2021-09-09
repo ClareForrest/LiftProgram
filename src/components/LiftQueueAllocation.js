@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { LiftStatus } from './LiftStatusState';
-import UpQueue from './UpQueue';
-import DownQueue from './DownQueue';
+import Queue from './Queue';
 
 const LiftQueueAllocation = (props) => {
   const {
@@ -9,9 +8,7 @@ const LiftQueueAllocation = (props) => {
   } = props;
 
   if (requestDirection === 'down'){
-    <DownQueue/>
-  } else {
-    <UpQueue/>
+    <Queue/>
   }
 };
 
