@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { LiftStatus } from './LiftStatusState';
+import UpQueue from './UpQueue';
+import DownQueue from './DownQueue';
 
-class LiftQueueAllocation extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      requestDirection: 'up'
-    }
+const LiftQueueAllocation = (props) => {
+  const {
+    requestDirection
+  } = props;
+
+  if (requestDirection === 'down'){
+    <DownQueue/>
+  } else {
+    <UpQueue/>
   }
 };
 
