@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Queue from "./Queue";
+// import { liftQueueAllocation } from "./Queue";
 
 // Lift state is passed default values, then set with new user input
 const LiftStatusState = () => {
@@ -8,9 +9,29 @@ const LiftStatusState = () => {
   const [callLocation, setCallLocation] = useState(null)
   const [userDirectionRequest, setUserDirectionRequest] = useState(null)
   const [userDestinationRequest, setUserDestinationRequest] = useState(null)
-  
-  function onDirectionClick(event) {
-    console.log('event', event)
+
+  useEffect(() => {
+    console.log('in useEffect')
+    return (
+      <>
+        {userDirectionRequest, userDestinationRequest}
+      </>
+    )
+  }, [])
+  console.log(userDestinationRequest)
+
+  function onUpDirectionClick(event) {
+    event.preventDefault()
+
+    setCallLocation(getRandomCallLocation(0, 10))
+    setLiftCalled(true)
+    setUserDirectionRequest('UP')
+    setQueueType('upQueue')
+    // liftQueueAllocation(queueType, liftLocation)
+  }
+
+  function onDownDirectionClick(event) {
+    event.preventDefault()
 
     setCallLocation(getRandomCallLocation(0, 10))
     setLiftCalled(true)
@@ -20,6 +41,7 @@ const LiftStatusState = () => {
   }
 
   function onDestinationRequest(event, queueType){
+    event.preventDefault()
     setUserDestinationRequest(event.target.value)
     // liftQueueAllocation(queueType, userDestinationRequest)
   }
@@ -34,16 +56,21 @@ const LiftStatusState = () => {
   return(
   <>
     <form>
-      {/* Change this to be two buttons that display as arrows (up and down) */}
+      {/* Change this to appear as two buttons that display as arrows (up and down) */}
+      {/* TO DO: convert to inputs with radio selection */}
       <label>User Select: </label>
-        <button type='submit' value={userDirectionRequest} onClick={onDirectionClick} >UP</button>
-        <button type='submit' value={userDirectionRequest} onClick={onDirectionClick}  >DOWN</button>
+        <button type='submit' onClick={onUpDirectionClick} >UP</button>
+        <button type='submit' onClick={onDownDirectionClick}  >DOWN</button>
     </form>
       <hr/>
       {/* Once this is a display button, trigger to be green once selected  */}
-      <p>User Direction Request: {userDirectionRequest}</p>
+      <p>User Direction Request: 
+        {userDirectionRequest ? userDirectionRequest : 'User Direction Request unknown'}
+      </p>
       {/* This is automatically generated to imitate real lift */}
-      <p>Call Location: {callLocation}</p>
+      <p>Call Location: 
+        {callLocation ? callLocation : "Call location unknown"}
+      </p>
 
       <form>
       {/* Make this visible only once lift reaches destination to mimick stepping into the lift?? */}
@@ -60,6 +87,7 @@ const LiftStatusState = () => {
         <button type='submit' value={userDestinationRequest} onClick={onDestinationRequest}>9</button>
         <button type='submit' value={userDestinationRequest} onClick={onDestinationRequest}>10</button>
       </form>
+
     </>
   )
 }
