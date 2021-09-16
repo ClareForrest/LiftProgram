@@ -76,7 +76,11 @@ const Queue = (props) => {
       setDownQueue(downQueue(...downQueue, callLocation))
     }
   }
-  
+  return( 
+  <>
+    <h1>in the queue</h1>
+  </>
+  )
 }
 
 export default Queue;
