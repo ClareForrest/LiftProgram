@@ -35,8 +35,8 @@ const LiftStatusState = () => {
 
     setCallLocation(getRandomCallLocation(0, 10))
     setLiftCalled(true)
-    setUserDirectionRequest(event.target.value)
-    setQueueType(event.target.value)
+    setUserDirectionRequest('DOWN')
+    setQueueType('downQueue')
     // liftQueueAllocation(queueType, liftLocation)
   }
 
@@ -72,21 +72,24 @@ const LiftStatusState = () => {
         {callLocation ? callLocation : "Call location unknown"}
       </p>
 
-      <form>
       {/* Make this visible only once lift reaches destination to mimick stepping into the lift?? */}
+      {/* Change to input selector instead of buttons  */}
+
+      <div onChange={onDestinationRequest}>
         <label>Choose your destination</label>
-        <button type='submit' value={userDestinationRequest} onClick={onDestinationRequest}>Ground </button>
-        <button type='submit' value={userDestinationRequest} onClick={onDestinationRequest}>1</button>
-        <button type='submit' value={userDestinationRequest} onClick={onDestinationRequest}>2</button>
-        <button type='submit' value={userDestinationRequest} onClick={onDestinationRequest}>3</button>
-        <button type='submit' value={userDestinationRequest} onClick={onDestinationRequest}>4</button>
-        <button type='submit' value={userDestinationRequest} onClick={onDestinationRequest}>5</button>
-        <button type='submit' value={userDestinationRequest} onClick={onDestinationRequest}>6</button>
-        <button type='submit' value={userDestinationRequest} onClick={onDestinationRequest}>7</button>
-        <button type='submit' value={userDestinationRequest} onClick={onDestinationRequest}>8</button>
-        <button type='submit' value={userDestinationRequest} onClick={onDestinationRequest}>9</button>
-        <button type='submit' value={userDestinationRequest} onClick={onDestinationRequest}>10</button>
-      </form>
+        {/* TO DO: have values displayed from mapped options const  */}
+        <input type="radio" value={1} name="destinationRequest" /> 1
+        <input type="radio" value={2} name="destinationRequest" /> 2
+        <input type="radio" value={3} name="destinationRequest" /> 3
+        <input type="radio" value={4} name="destinationRequest" /> 4
+        <input type="radio" value={5} name="destinationRequest" /> 5
+        <input type="radio" value={6} name="destinationRequest" /> 6
+        <input type="radio" value={7} name="destinationRequest" /> 7
+        <input type="radio" value={8} name="destinationRequest" /> 8
+        <input type="radio" value={9} name="destinationRequest" /> 9
+        <input type="radio" value={10} name="destinationRequest" /> 10
+        <p> Destination Request: {userDestinationRequest} </p>
+      </div>
 
     </>
   )
