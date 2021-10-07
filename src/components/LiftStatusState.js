@@ -106,13 +106,6 @@ const LiftStatusState = () => {
 		}
 
 		function floorDisplay(queueType, upQueue, downQueue ){
-
-			// const [queueType, setQueueType] = useState('up')
-			// const [upQueue, setUpQueue] = useState(props.upQueue)
-			// const [downQueue, setDownQueue] = useState(props.downQueue)
-			// const [upQueue, setUpQueue] = useState([1,3,4,6,7,8])
-			// const [downQueue, setDownQueue] = useState([9,7,4,2,1])
-		
 			setTimeout(() => {
 				if(upQueue.length === 0 || downQueue.length === 0){
 					let newType = upQueue ? 'down' : 'up'
