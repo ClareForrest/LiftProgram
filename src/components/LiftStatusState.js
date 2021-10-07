@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import FloorDisplay from './FloorDisplay';
 import Queue from './Queue';
-// import { liftQueueAllocation } from "./Queue";
 
 // Lift state is passed default values, then set with new user input
 const LiftStatusState = () => {
@@ -9,10 +9,15 @@ const LiftStatusState = () => {
 	const [callLocation, setCallLocation] = useState(null);
 	const [userDirectionRequest, setUserDirectionRequest] = useState(null);
 	const [userDestinationRequest, setUserDestinationRequest] = useState(null);
+	const [liftLocation, setLiftLocation] = useState(0)
+	const [upQueue, setUpQueue] = useState([0])
+  const [downQueue, setDownQueue] = useState([])
+	// const [upQueue, setUpQueue] = useState([1,3,4,6,7,8])
+  // const [downQueue, setDownQueue] = useState([9,7,4,2,1])
+	
 
 	useEffect(() => {
-		console.log('in useEffect');
-		return <>{(userDirectionRequest, userDestinationRequest)}</>;
+		return <>{(userDirectionRequest, userDestinationRequest, upQueue, downQueue)}</>;
 	}, []);
 
 	function onUpDirectionClick(event) {
@@ -20,9 +25,8 @@ const LiftStatusState = () => {
 
 		setCallLocation(getRandomCallLocation(0, 10));
 		setLiftCalled(true);
-		setUserDirectionRequest('UP');
-		setQueueType('upQueue');
-		// liftQueueAllocation(queueType, liftLocation)
+		setUserDirectionRequest('up');
+		liftQueueAllocation(userDirectionRequest, callLocation)
 	}
 
 	function onDownDirectionClick(event) {
@@ -30,15 +34,15 @@ const LiftStatusState = () => {
 
 		setCallLocation(getRandomCallLocation(0, 10));
 		setLiftCalled(true);
-		setUserDirectionRequest('DOWN');
-		setQueueType('downQueue');
-		// liftQueueAllocation(queueType, liftLocation)
+		setUserDirectionRequest('down');
+		liftQueueAllocation(userDirectionRequest, callLocation)
 	}
 
-	function onDestinationRequest(event, queueType) {
+	function onDestinationRequest(event) {
 		event.preventDefault();
 		setUserDestinationRequest(event.target.value);
-		// liftQueueAllocation(queueType, userDestinationRequest)
+		// Need to know what queue is currently in action (up or down) getQueue function??
+		destinationLiftQueueAllocation(userDestinationRequest, queueType)
 	}
 
 	// A random selector for floor level instead of user having to select (better imitates real life).
@@ -47,6 +51,96 @@ const LiftStatusState = () => {
 		max = Math.floor(max);
 		return Math.floor(Math.random() * (max - min + 1) + min);
 	}
+
+	  // This only addresses lift calls from each level (not within the lift itself)
+		// TO DO: check callLocation against items in array. Don't add if it already exists
+		// TO DO: move to another file and import 
+		function liftQueueAllocation(userDirectionRequest, callLocation){
+			if(userDirectionRequest === 'up'){
+				if(callLocation < upQueue[0]) {
+					let newQueue = [callLocation, ...upQueue]
+					setUpQueue(newQueue)
+					console.log('upQueue', upQueue)
+				} else if (callLocation > upQueue[0]){
+					let newQueue = [...upQueue, callLocation]
+					setUpQueue(newQueue)
+
+					console.log('upQueue', upQueue)
+				}
+			} else if(userDirectionRequest === 'down'){
+				if(callLocation < downQueue[0]){
+					let newQueue = [...downQueue, callLocation]
+					setDownQueue(newQueue)
+					console.log('down queue', downQueue)
+				} else if(callLocation > downQueue[0]){
+					let newQueue = [callLocation, ...downQueue]
+					setDownQueue(newQueue)
+					console.log('down queue', downQueue)
+				}
+			}
+			floorDisplay(queueType, upQueue, downQueue)
+		}
+
+		// TO DO: move to another file and import 
+		function destinationLiftQueueAllocation(userDestinationRequest, queueType){
+			if(queueType === 'up'){
+				if(userDestinationRequest <= upQueue[0]){
+					let newQueue = [Number(userDestinationRequest), ...upQueue]
+					setUpQueue(newQueue)
+					console.log('up queue', upQueue)
+				} else if(userDestinationRequest >= upQueue[0]){
+					let newQueue = [...upQueue, Number(userDestinationRequest)]
+					setUpQueue(newQueue)
+					console.log('up queue', upQueue)
+				}
+			} else if (queueType === 'down'){
+				if(userDestinationRequest <= downQueue[0]){
+					let newQueue = [...downQueue, Number(userDestinationRequest)]
+					setDownQueue(newQueue)
+				} else if(userDestinationRequest >= downQueue[0]){
+					let newQueue = [Number(userDestinationRequest), ...downQueue]
+					setDownQueue(newQueue)
+					console.log('down queue', downQueue)
+				}
+			}
+		}
+
+		function floorDisplay(queueType, upQueue, downQueue ){
+
+			// const [queueType, setQueueType] = useState('up')
+			// const [upQueue, setUpQueue] = useState(props.upQueue)
+			// const [downQueue, setDownQueue] = useState(props.downQueue)
+			// const [upQueue, setUpQueue] = useState([1,3,4,6,7,8])
+			// const [downQueue, setDownQueue] = useState([9,7,4,2,1])
+		
+			setTimeout(() => {
+				if(upQueue.length === 0 || downQueue.length === 0){
+					let newType = upQueue ? 'down' : 'up'
+					setQueueType(newType)
+					console.log('newqueue type', queueType)
+				}
+				if(queueType === 'up' && upQueue.length > 0){
+					setLiftLocation(liftLocation +1)
+					if(liftLocation === upQueue[0]){
+						upQueue.shift()
+						console.log('up queue', upQueue)
+					}
+				} else if (queueType === 'down' && downQueue.length > 1){
+					setLiftLocation(liftLocation -1)
+					if(liftLocation === downQueue[0]){
+						downQueue.shift()
+						console.log('down queue', downQueue)
+					}
+				}
+			}, 1000)
+		
+			return(
+				<>
+				<h1>FloorDisplay Component</h1>
+				<h3>Lift Level: {liftLocation}</h3>
+				</>
+			)
+		}
 
 	return (
 		<>
