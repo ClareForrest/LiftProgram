@@ -1,46 +1,32 @@
 import React, { useState, useEffect } from 'react';
 
 // FloorDisplay component is passed a default value, then set with new user input
+// FloorDisplay - sole job is to display incrementing/decrementing numbers on a screen
+
+// TO DO: adjust display (currently going one higher) Will be related to if statement
 const FloorDisplay = (props) => {
   const [liftLocation, setLiftLocation] = useState(0)
-  const downFloorDisplayArray = [9,8,7,6,5,4,3,2,1,0]
-  const upFloorDisplayArray = [0,1,2,3,4,5,6,7,8,9]
-  // let queue = props.queue
-  let floorDisplayArray
-  // if (props.queueType === 'up'){
-  //   floorDisplayArray = upFloorDisplayArray
-  // } else {
-  //   floorDisplayArray = downFloorDisplayArray
-  // }
-  
-  let queue = [3,5,7,9]
-  floorDisplayArray = upFloorDisplayArray
+  let queue = props.queue
+  let queueType = props.queueType
 
-	useEffect(() => {
-    console.log('in useEffect for FloorDisplay component');
-    floorDisplay(floorDisplayArray, queue)
-		return <>{liftLocation}</>;
-	},[]);
-  
-  // TO DO: add setInterval to setLiftLocation every 1 second
-  
-  function floorDisplay(floorDisplayArray, queue) {
-    let i = 0
-    while(queue.length > 0 && floorDisplayArray.length > i){
-      setLiftLocation(floorDisplayArray[i])
-      console.log(floorDisplayArray[i])
-
-      if(floorDisplayArray[i] === queue[0]){
+  setTimeout(() => {
+    if(queueType === 'up' && queue.length > 0){
+      setLiftLocation(liftLocation +1)
+      if(liftLocation === queue[0]){
         queue.shift()
-        
-        console.log('queue array', queue)
-      }     
-      i++
+      }
+    } else if (queueType === 'down' && queue.length < 0){
+      setLiftLocation(liftLocation -1)
+      if(liftLocation === queue[0]){
+        queue.shift()
+      }
     }
-  }
+  }, 1000)
+
   return(
     <>
-    <h1>lift location {liftLocation}</h1>
+    <h1>FloorDisplay Component</h1>
+    <h3>Lift Level: {liftLocation}</h3>
     </>
   )
 }
