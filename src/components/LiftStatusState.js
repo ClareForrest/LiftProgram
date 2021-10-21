@@ -183,6 +183,19 @@ const LiftStatusState = () => {
 		return <button onClick={onDownDirectionClick}> {props.direction} </button>
 	}
 
+	const FloorDisplay = (props) => {
+		// change setState and queue updates to call a function/s that updates the state in the parent component (liftStatusState)
+		const queueType = props.queueType
+		let queue = (queueType === 'up') ? props.upQueue : props.downQueue
+		let liftLocation = props.liftLocation
+		return(
+			<>
+			<h1>FloorDisplay Component</h1>
+			<h3>Lift Level: {liftLocation}</h3>
+			</>
+		)
+	}
+
 	const liftLevels = [1,2,3,4,5,6]
 	return (
 		<>
