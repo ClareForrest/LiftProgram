@@ -21,7 +21,7 @@ const LiftStatusState = () => {
 			<>{(userDirectionRequest, userDestinationRequest, upQueue, downQueue)}</>
 		);
 	});
-s
+
 	function onUpDirectionClick(event) {
 		event.preventDefault();
 
@@ -129,11 +129,6 @@ s
 			}
 		}, 1000);
 	}
-
-	// while(upQueue.length > 0){
-	// 	floorDisplay(queueType, upQueue, downQueue)
-	// }
-
 
 	// TO DO: check callLocation against items in array. Don't add if it already exists
 	function liftQueueAllocation(userDirectionRequest, callLocation) {
